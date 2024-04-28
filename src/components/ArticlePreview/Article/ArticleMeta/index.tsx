@@ -1,3 +1,5 @@
+"use client";
+
 import { Author } from "@/components/ArticlePreview/Article";
 
 interface ArticleMetaProps {

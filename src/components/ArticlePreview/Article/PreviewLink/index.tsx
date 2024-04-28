@@ -1,3 +1,5 @@
+"use client";
+
 import TagList from "@/components/ArticlePreview/Article/PreviewLink/TagList";
 
 interface PreviewLinkProps {

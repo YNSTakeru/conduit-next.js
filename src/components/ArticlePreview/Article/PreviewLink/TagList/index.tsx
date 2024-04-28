@@ -1,3 +1,5 @@
+"use client";
+
 import Tag from "@/components/ArticlePreview/Article/PreviewLink/TagList/Tag";
 
 export default function TagList({ tagList }: { tagList: string[] }) {

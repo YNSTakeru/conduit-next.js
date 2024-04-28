@@ -1,3 +1,5 @@
+"use client";
+
 interface TagProps {
   tag: string;
 }
