@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import Head from "next/head";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Conduit",
@@ -30,7 +27,7 @@ export default function RootLayout({
         />
         <link rel="stylesheet" href="//demo.productionready.io/main.css" />
       </Head>
-      <body className={inter.className}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
