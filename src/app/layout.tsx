@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Head from "next/head";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import "./globals.css";
 
@@ -20,18 +21,7 @@ export default function RootLayout({
       <body>
         <Header />
         <main>{children}</main>
-        <footer>
-          <div className="container">
-            <a href="/" className="logo-font">
-              conduit
-            </a>
-            <span className="attribution">
-              An interactive learning project from{" "}
-              <a href="https://thinkster.io">Thinkster</a>. Code &amp; design
-              licensed under MIT.
-            </span>
-          </div>
-        </footer>
+        <Footer />
       </body>
     </html>
   );
