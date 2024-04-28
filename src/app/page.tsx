@@ -1,10 +1,10 @@
 "use client";
 
-import ArticlePreview from "./components/ArticlePreview";
-import { Banner } from "./components/Banner";
-import FeedToggle from "./components/FeedToggle";
-import Pagination from "./components/Pagination";
-import Sidebar from "./components/Sidebar";
+import ArticlePreview from "../components/ArticlePreview";
+import { Banner } from "../components/Banner";
+import FeedToggle from "../components/FeedToggle";
+import Pagination from "../components/Pagination";
+import Sidebar from "../components/Sidebar";
 
 export default function Home() {
   return (
