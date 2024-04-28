@@ -1,6 +1,7 @@
 "use client";
 
 import { Banner } from "./components/Banner";
+import FeedToggle from "./components/FeedToggle";
 
 export default function Home() {
   return (
@@ -10,20 +11,7 @@ export default function Home() {
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            <div className="feed-toggle">
-              <ul className="nav nav-pills outline-active">
-                <li className="nav-item">
-                  <a className="nav-link" href="">
-                    Your Feed
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" href="">
-                    Global Feed
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <FeedToggle />
 
             <div className="article-preview">
               <div className="article-meta">
