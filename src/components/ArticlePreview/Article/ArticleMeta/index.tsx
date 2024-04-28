@@ -1,6 +1,7 @@
 "use client";
 
 import { Author } from "@/components/ArticlePreview/Article";
+import Image from "next/image";
 
 interface ArticleMetaProps {
   author: Author;
@@ -18,7 +19,7 @@ export default function ArticleMeta({
   return (
     <div className="article-meta">
       <a href="profile.html">
-        <img src={image} />
+        <Image src={image} alt="" width={32} height={32} />
       </a>
       <div className="info">
         <a href="" className="author">
