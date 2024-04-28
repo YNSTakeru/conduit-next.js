@@ -1,6 +1,6 @@
 "use client";
 
-import ArticlePreview from "@/components/ArticlePreview";
+import ArticlePreviews from "@/components/ArticlePreview";
 import { Banner } from "@/components/Banner";
 import FeedToggle from "@/components/FeedToggle";
 import Pagination from "@/components/Pagination";
@@ -15,7 +15,7 @@ export default function Home() {
         <div className="row">
           <div className="col-md-9">
             <FeedToggle />
-            <ArticlePreview />
+            <ArticlePreviews />
             <Pagination />
           </div>
 
