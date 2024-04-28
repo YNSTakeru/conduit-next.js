@@ -1,19 +1,9 @@
-import ProfileActions from "@/components/Profile/ProfileActions";
-import ProfileHeader from "@/components/Profile/ProfileHeader";
+import UserInfo from "@/components/Profile/UserInfo";
 
 export default function Profile() {
   return (
     <div className="profile-page">
-      <div className="user-info">
-        <div className="container">
-          <div className="row">
-            <div className="col-xs-12 col-md-10 offset-md-1">
-              <ProfileHeader />
-              <ProfileActions />
-            </div>
-          </div>
-        </div>
-      </div>
+      <UserInfo />
 
       <div className="container">
         <div className="row">
