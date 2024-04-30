@@ -3,33 +3,17 @@
 import ArticleMeta from "@/components/ArticlePreview/Article/ArticleMeta";
 import PreviewLink from "@/components/ArticlePreview/Article/PreviewLink";
 
-export interface Author {
-  username: string;
-  image: string;
-  following: boolean;
-}
+import { ArticleProps } from "@/components/ArticlePreview";
 
-export interface ArticleProps {
-  article: {
-    title: string;
-    description: string;
-    tagList: string[];
-    created_at: string;
-    favorited: boolean;
-    favoritesCount: number;
-    author: Author;
-  };
-}
-
-export default function Article({ article }: ArticleProps) {
-  const { author, title, description, tagList, created_at, favoritesCount } =
+export default function Article({ article }: { article: ArticleProps }) {
+  const { author, title, description, tagList, createdAt, favoritesCount } =
     article;
 
   return (
     <div className="article-preview">
       <ArticleMeta
         author={author}
-        created_at={created_at}
+        created_at={createdAt}
         favoritesCount={favoritesCount}
       />
       <PreviewLink title={title} description={description} tagList={tagList} />

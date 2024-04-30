@@ -1,6 +1,6 @@
 "use client";
 
-import { Author } from "@/components/ArticlePreview/Article";
+import { Author } from "@/components/ArticlePreview";
 import Image from "next/image";
 
 interface ArticleMetaProps {
