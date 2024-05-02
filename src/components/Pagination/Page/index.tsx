@@ -10,7 +10,7 @@ export default function Page({
       className={`page-item ${currentPage === page_num ? "active" : ""} `}
       key={page_num}
     >
-      <a className="page-link" href="">
+      <a className="page-link" href={`/articles/${page_num}`}>
         {page_num}
       </a>
     </li>

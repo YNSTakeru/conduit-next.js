@@ -4,8 +4,10 @@ import FeedToggle from "@/components/FeedToggle";
 import Pagination from "@/components/Pagination";
 import Sidebar from "@/components/Sidebar";
 
-export async function getArticles() {
-  const res = await fetch("http://localhost:3000/api/articles");
+export async function getArticles(currentPage: number) {
+  const res = await fetch(
+    `http://localhost:3000/api/articles?current_page=${currentPage}`
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch articles");
@@ -14,7 +16,7 @@ export async function getArticles() {
   return res.json();
 }
 
-async function getTags() {
+export async function getTags() {
   const res = await fetch("http://localhost:3000/api/tags");
 
   if (!res.ok) {
@@ -24,8 +26,10 @@ async function getTags() {
   return res.json();
 }
 
-export async function getPage() {
-  const res = await fetch("http://localhost:3000/api/pages");
+export async function getPage(currentPage: Number = 1) {
+  const res = await fetch(
+    `http://localhost:3000/api/pages?current_page=${currentPage}`
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch page");
@@ -34,8 +38,14 @@ export async function getPage() {
   return res.json();
 }
 
-export default async function Home() {
-  const { articles } = await getArticles();
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { currentPage: number | undefined };
+}) {
+  const currentPage = searchParams.currentPage ? searchParams.currentPage : 1;
+
+  const { articles } = await getArticles(currentPage);
   const { tags } = await getTags();
   const page = await getPage();
 

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function ProfileHeader() {
+export default function ProfileHeader({ username }: { username: string }) {
   return (
     <>
       <Image
@@ -10,7 +10,7 @@ export default function ProfileHeader() {
         height={100}
         alt=""
       />
-      <h4>Eric Simons</h4>
+      <h4>{username}</h4>
       <p>
         Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks
         like Peeta from the Hunger Games
