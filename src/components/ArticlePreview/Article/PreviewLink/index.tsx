@@ -18,7 +18,7 @@ export default function PreviewLink({
       <h1>{title}</h1>
       <p>{description}</p>
       <span>Read more...</span>
-      <TagList tagList={tagList} />
+      <TagList tagList={tagList} isArticle />
     </a>
   );
 }

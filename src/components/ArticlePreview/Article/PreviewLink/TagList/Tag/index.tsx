@@ -1,13 +1,23 @@
 "use client";
 
-interface TagProps {
-  tag: string;
+export interface TagProps {
+  id: number;
+  name: string;
+  favorite_count: number;
+  created_at: string;
+  updated_at: string;
 }
 
-export default function Tag({ tag }: TagProps) {
+export default function Tag({
+  name,
+  isArticle = false,
+}: {
+  name: string;
+  isArticle?: boolean;
+}) {
   return (
-    <li key={tag} className="tag-default tag-pill tag-outline">
-      {tag}
+    <li className={`tag-default tag-pill ${isArticle ? "tag-outline" : ""}`}>
+      {name}
     </li>
   );
 }

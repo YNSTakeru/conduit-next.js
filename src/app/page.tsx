@@ -14,8 +14,19 @@ export async function getArticles() {
   return res.json();
 }
 
+export async function getTags() {
+  const res = await fetch("http://localhost:3000/api/tags");
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch tags");
+  }
+
+  return res.json();
+}
+
 export default async function Home() {
   const { articles } = await getArticles();
+  const { tags } = await getTags();
 
   return (
     <div className="home-page">
@@ -30,7 +41,7 @@ export default async function Home() {
           </div>
 
           <div className="col-md-3">
-            <Sidebar />
+            <Sidebar tags={tags} />
           </div>
         </div>
       </div>
