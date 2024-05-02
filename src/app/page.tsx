@@ -14,7 +14,7 @@ export async function getArticles() {
   return res.json();
 }
 
-export async function getTags() {
+async function getTags() {
   const res = await fetch("http://localhost:3000/api/tags");
 
   if (!res.ok) {
@@ -24,9 +24,20 @@ export async function getTags() {
   return res.json();
 }
 
+export async function getPage() {
+  const res = await fetch("http://localhost:3000/api/pages");
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch page");
+  }
+
+  return res.json();
+}
+
 export default async function Home() {
   const { articles } = await getArticles();
   const { tags } = await getTags();
+  const page = await getPage();
 
   return (
     <div className="home-page">
@@ -37,7 +48,7 @@ export default async function Home() {
           <div className="col-md-9">
             <FeedToggle />
             <ArticlePreviews articles={articles} />
-            <Pagination />
+            <Pagination {...page} />
           </div>
 
           <div className="col-md-3">

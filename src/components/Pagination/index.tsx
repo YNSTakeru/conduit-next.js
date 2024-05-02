@@ -1,18 +1,20 @@
 "use client";
 
-export default function Pagination() {
+import Page from "./Page";
+
+export default function Pagination({
+  currentPage,
+  totalPages,
+}: {
+  currentPage: number;
+  totalPages: number;
+}) {
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
   return (
     <ul className="pagination">
-      <li className="page-item active">
-        <a className="page-link" href="">
-          1
-        </a>
-      </li>
-      <li className="page-item">
-        <a className="page-link" href="">
-          2
-        </a>
-      </li>
+      {pages.map((page_num) => (
+        <Page key={page_num} page_num={page_num} currentPage={currentPage} />
+      ))}
     </ul>
   );
 }
