@@ -15,7 +15,7 @@ export default async function Profile({
 
   const { user_name } = params;
 
-  const { articles } = await getArticles(currentPage);
+  const { articles } = await getArticles({ currentPage });
   const page = await getPage();
 
   return (

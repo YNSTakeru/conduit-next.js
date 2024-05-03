@@ -8,13 +8,14 @@ import Sidebar from "@/components/Sidebar";
 export default async function ArticlePage({
   params,
 }: {
-  params: { page: number };
+  params: { page: number; tag: string };
 }) {
   const currentPage = params.page;
+  const tag = params.tag;
 
-  const { articles } = await getArticles({ currentPage });
+  const { articles } = await getArticles({ currentPage, tag });
   const { tags } = await getTags();
-  const page = await getPage({ currentPage });
+  const page = await getPage({ currentPage, tag });
 
   return (
     <div className="home-page">
@@ -25,7 +26,7 @@ export default async function ArticlePage({
           <div className="col-md-9">
             <FeedToggle />
             <ArticlePreviews articles={articles} />
-            <Pagination {...page} />
+            <Pagination {...page} tag={tag} />
           </div>
 
           <div className="col-md-3">

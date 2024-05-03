@@ -15,8 +15,15 @@ export default function Tag({
   name: string;
   isArticle?: boolean;
 }) {
+  const handleClick = () => {
+    window.location.href = `/tags/${name}`;
+  };
+
   return (
-    <li className={`tag-default tag-pill ${isArticle ? "tag-outline" : ""}`}>
+    <li
+      className={`tag-default tag-pill ${isArticle ? "tag-outline" : ""}`}
+      onClick={handleClick}
+    >
       {name}
     </li>
   );
