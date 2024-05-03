@@ -18,11 +18,11 @@ export default function ArticleMeta({
 
   return (
     <div className="article-meta">
-      <a href="profile.html">
+      <a href={`profile/${username}`}>
         <Image src={image} alt="" width={32} height={32} />
       </a>
       <div className="info">
-        <a href="" className="author">
+        <a href={`profile/${username}`} className="author">
           {username}
         </a>
         <span className="date">{created_at}</span>
