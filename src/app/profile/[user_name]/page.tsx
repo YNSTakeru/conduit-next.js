@@ -2,6 +2,7 @@ import ArticlePreviews from "@/components/ArticlePreview";
 import Pagination from "@/components/Pagination";
 import ArticleToggle from "@/components/Profile/ArticleToggle";
 import UserInfo from "@/components/Profile/UserInfo";
+import { Suspense } from "react";
 import { getArticles, getPage } from "../../page";
 
 export default async function Profile({
@@ -27,7 +28,9 @@ export default async function Profile({
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
             <ArticleToggle />
-            <ArticlePreviews articles={articles} />
+            <Suspense fallback={<div>Loading Blogs...</div>}>
+              <ArticlePreviews articles={articles} />
+            </Suspense>
             <Pagination {...page} />
           </div>
         </div>

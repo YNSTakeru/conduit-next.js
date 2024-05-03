@@ -3,6 +3,7 @@ import { Banner } from "@/components/Banner";
 import FeedToggle from "@/components/FeedToggle";
 import Pagination from "@/components/Pagination";
 import Sidebar from "@/components/Sidebar";
+import { Suspense } from "react";
 
 export async function getArticles(
   {
@@ -62,6 +63,8 @@ export async function getPage(
   return res.json();
 }
 
+export const revalidate = 2;
+
 export default async function Home({
   searchParams,
 }: {
@@ -82,7 +85,9 @@ export default async function Home({
         <div className="row">
           <div className="col-md-9">
             <FeedToggle />
-            <ArticlePreviews articles={articles} />
+            <Suspense fallback={<div>Loading Blogs...</div>}>
+              <ArticlePreviews articles={articles} />
+            </Suspense>
             <Pagination {...page} />
           </div>
 

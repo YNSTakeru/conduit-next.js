@@ -4,6 +4,7 @@ import { Banner } from "@/components/Banner";
 import FeedToggle from "@/components/FeedToggle";
 import Pagination from "@/components/Pagination";
 import Sidebar from "@/components/Sidebar";
+import { Suspense } from "react";
 
 export default async function ArticlePage({
   params,
@@ -24,7 +25,9 @@ export default async function ArticlePage({
         <div className="row">
           <div className="col-md-9">
             <FeedToggle />
-            <ArticlePreviews articles={articles} />
+            <Suspense fallback={<div>Loading Blogs...</div>}>
+              <ArticlePreviews articles={articles} />
+            </Suspense>
             <Pagination {...page} />
           </div>
 
