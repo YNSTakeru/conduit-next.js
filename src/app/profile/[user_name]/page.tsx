@@ -14,13 +14,14 @@ export default async function Profile({
   const currentPage = searchParams.currentPage ? searchParams.currentPage : 1;
 
   const { user_name } = params;
+  const userName = decodeURIComponent(user_name);
 
   const { articles } = await getArticles({ currentPage });
   const page = await getPage();
 
   return (
     <div className="profile-page">
-      <UserInfo username={user_name} />
+      <UserInfo username={userName} />
 
       <div className="container">
         <div className="row">
