@@ -1,6 +1,45 @@
 "use client";
 
+import { useState } from "react";
+
 export default function Register() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const response = await fetch("http://localhost:3000/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, email, password }),
+    });
+
+    if (response.status === 400) {
+      const data = await response.text();
+
+      const dataList = data.split(", ");
+      setErrorMessages(() => dataList);
+    }
+
+    if (response.status === 500) {
+      const data = await response.text();
+
+      const obj = JSON.parse(data);
+
+      const dataList = Object.keys(obj).map((key) => obj[key]);
+      setErrorMessages(() => dataList);
+    }
+
+    if (response.ok) {
+      window.location.href = "/";
+    }
+  };
+
   return (
     <div className="auth-page">
       <div className="container page">
@@ -12,21 +51,27 @@ export default function Register() {
             </p>
 
             <ul className="error-messages">
-              <li>That email is already taken</li>
+              {errorMessages.map((message, index) => (
+                <li key={index}>{message}</li>
+              ))}
             </ul>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <fieldset className="form-group">
                 <input
                   className="form-control form-control-lg"
                   type="text"
+                  value={username}
                   placeholder="Username"
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </fieldset>
               <fieldset className="form-group">
                 <input
                   className="form-control form-control-lg"
-                  type="text"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
                 />
               </fieldset>
@@ -34,6 +79,8 @@ export default function Register() {
                 <input
                   className="form-control form-control-lg"
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                 />
               </fieldset>

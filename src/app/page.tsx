@@ -85,7 +85,7 @@ export default async function Home({
         <div className="row">
           <div className="col-md-9">
             <FeedToggle />
-            <Suspense fallback={<div>Loading Blogs...</div>}>
+            <Suspense fallback={<div>Loading Articles...</div>}>
               <ArticlePreviews articles={articles} />
             </Suspense>
             <Pagination {...page} />
