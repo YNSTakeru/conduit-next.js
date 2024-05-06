@@ -8,6 +8,24 @@ export function getFormattedDate(dateString: string) {
   return `${month} ${day}, ${year}`;
 }
 
+export interface ArticleDetailProps {
+  slug: string;
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+  createdAt: string;
+  updatedAt: string;
+  favorited: boolean;
+  favoritesCount: number;
+  author: {
+    username: string;
+    bio: string;
+    image: string;
+    following: boolean;
+  };
+}
+
 export default function ArticleDetail({
   user,
   token,
@@ -22,23 +40,7 @@ export default function ArticleDetail({
     password: string;
   };
   token?: string;
-  article: {
-    slug: string;
-    title: string;
-    description: string;
-    body: string;
-    tagList: string[];
-    createdAt: string;
-    updatedAt: string;
-    favorited: boolean;
-    favoritesCount: number;
-    author: {
-      username: string;
-      bio: string;
-      image: string;
-      following: boolean;
-    };
-  };
+  article: ArticleDetailProps;
 }) {
   const {
     title,
@@ -52,10 +54,12 @@ export default function ArticleDetail({
 
   const formattedDate = getFormattedDate(createdAt);
 
-  // tagをクリックしてページ遷移する
-
   const handleTagClick = (tag: string) => {
     window.location.href = `http://localhost:3000/tags/${tag}`;
+  };
+
+  const handleEditClick = () => {
+    window.location.href = `http://localhost:3000/editor/${article.slug}`;
   };
 
   return (
@@ -85,12 +89,19 @@ export default function ArticleDetail({
               &nbsp; Favorite Post{" "}
               <span className="counter">({favoritesCount})</span>
             </button>
-            <button className="btn btn-sm btn-outline-secondary">
-              <i className="ion-edit"></i> Edit Article
-            </button>
-            <button className="btn btn-sm btn-outline-danger">
-              <i className="ion-trash-a"></i> Delete Article
-            </button>
+            {user?.username === author.username && (
+              <>
+                <button
+                  className="btn btn-sm btn-outline-secondary"
+                  onClick={handleEditClick}
+                >
+                  <i className="ion-edit"></i> Edit Article
+                </button>
+                <button className="btn btn-sm btn-outline-danger">
+                  <i className="ion-trash-a"></i> Delete Article
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -118,7 +129,11 @@ export default function ArticleDetail({
         <div className="article-actions">
           <div className="article-meta">
             <a href={`profile/${author.username}`}>
-              <img src="http://i.imgur.com/Qr71crq.jpg" />
+              <img
+                src={
+                  author.image ? author.image : "http://i.imgur.com/Qr71crq.jpg"
+                }
+              />
             </a>
             <div className="info">
               <a href={`profile/${author.username}`} className="author">
@@ -136,12 +151,19 @@ export default function ArticleDetail({
               &nbsp; Favorite Article{" "}
               <span className="counter">({favoritesCount})</span>
             </button>
-            <button className="btn btn-sm btn-outline-secondary">
-              <i className="ion-edit"></i> Edit Article
-            </button>
-            <button className="btn btn-sm btn-outline-danger">
-              <i className="ion-trash-a"></i> Delete Article
-            </button>
+            {user?.username === author.username && (
+              <>
+                <button
+                  className="btn btn-sm btn-outline-secondary"
+                  onClick={handleEditClick}
+                >
+                  <i className="ion-edit"></i> Edit Article
+                </button>
+                <button className="btn btn-sm btn-outline-danger">
+                  <i className="ion-trash-a"></i> Delete Article
+                </button>
+              </>
+            )}
           </div>
         </div>
         {user && (
