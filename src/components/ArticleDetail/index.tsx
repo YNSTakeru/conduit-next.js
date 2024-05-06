@@ -62,6 +62,18 @@ export default function ArticleDetail({
     window.location.href = `http://localhost:3000/editor/${article.slug}`;
   };
 
+  const handleDelete = () => {
+    fetch(`http://localhost:3000/api/delete-article?slug=${article.slug}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((response) => {
+      window.location.href = "http://localhost:3000";
+    });
+  };
+
   return (
     <div className="article-page">
       <div className="banner">
@@ -97,7 +109,10 @@ export default function ArticleDetail({
                 >
                   <i className="ion-edit"></i> Edit Article
                 </button>
-                <button className="btn btn-sm btn-outline-danger">
+                <button
+                  className="btn btn-sm btn-outline-danger"
+                  onClick={handleDelete}
+                >
                   <i className="ion-trash-a"></i> Delete Article
                 </button>
               </>
@@ -159,7 +174,10 @@ export default function ArticleDetail({
                 >
                   <i className="ion-edit"></i> Edit Article
                 </button>
-                <button className="btn btn-sm btn-outline-danger">
+                <button
+                  className="btn btn-sm btn-outline-danger"
+                  onClick={handleDelete}
+                >
                   <i className="ion-trash-a"></i> Delete Article
                 </button>
               </>

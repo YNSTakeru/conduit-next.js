@@ -6,7 +6,9 @@ export async function getArticle(slug: string) {
 
   const res = await fetch(url);
 
-  if (!res.ok) throw new Error("Failed to fetch article");
+  if (!res.ok) {
+    return { message: "Articleが見つかりませんでした" };
+  }
 
   return res.json();
 }
