@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import type { Metadata } from "next";
 
+import Header from "@/components/Header";
 import { cookies } from "next/headers";
 import "./globals.css";
 
@@ -37,7 +37,7 @@ export async function getUser() {
   });
 
   if (!res.ok) {
-    return;
+    return res.json();
   }
   return res.json();
 }
@@ -47,13 +47,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { user } = await getUser();
-  console.log(user);
+  const data = await getUser();
 
   return (
     <html lang="en">
       <body>
-        <Header user={user} />
+        <Header user={data.user} />
         <main>{children}</main>
         <Footer />
       </body>

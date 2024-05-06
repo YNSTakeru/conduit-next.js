@@ -14,8 +14,8 @@ export default function Header({
 } = {}) {
   const currentPath = usePathname();
 
-  {
-    !user && (
+  if (!user)
+    return (
       <nav className="navbar navbar-light">
         <div className="container">
           <a className="navbar-brand" href="/">
@@ -41,7 +41,6 @@ export default function Header({
         </div>
       </nav>
     );
-  }
 
   const { username, image } = user!;
 

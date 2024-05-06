@@ -5,8 +5,6 @@ export async function GET(request: NextResponse) {
   try {
     const authorizationHeader = request.headers.get("authorization");
 
-    console.log(authorizationHeader);
-
     if (authorizationHeader) {
       let token = authorizationHeader.replace("Bearer ", "");
 
@@ -30,8 +28,7 @@ export async function GET(request: NextResponse) {
       });
     }
   } catch (error) {
-    console.error(error);
-    return NextResponse.error();
+    return NextResponse.json({ message: "認証エラー" }, { status: 401 });
   }
 
   return NextResponse.json({});
