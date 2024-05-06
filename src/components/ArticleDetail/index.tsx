@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 export function getFormattedDate(dateString: string) {
   const date = new Date(dateString);
   const month = date.toLocaleString("default", { month: "long" });
@@ -20,8 +22,21 @@ export interface ArticleDetailProps {
   favoritesCount: number;
   author: {
     username: string;
-    bio: string;
-    image: string;
+    bio?: string;
+    image?: string;
+    following: boolean;
+  };
+}
+
+interface CommentProps {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  body: string;
+  author: {
+    username: string;
+    bio?: string;
+    image?: string;
     following: boolean;
   };
 }
@@ -72,6 +87,31 @@ export default function ArticleDetail({
     }).then((response) => {
       window.location.href = "http://localhost:3000";
     });
+  };
+
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState<CommentProps[]>([]);
+
+  const postComment = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const url = `http://localhost:3000/api/comment?slug=${article.slug}`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ comment }),
+    });
+
+    if (response.ok) {
+      setComment("");
+      const data = await response.json();
+      const newComment: CommentProps = data.comment;
+
+      setComments([newComment, ...comments]);
+    }
   };
 
   return (
@@ -193,6 +233,8 @@ export default function ArticleDetail({
                     className="form-control"
                     placeholder="Write a comment..."
                     rows={3}
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
                   ></textarea>
                 </div>
                 <div className="card-footer">
@@ -200,58 +242,46 @@ export default function ArticleDetail({
                     src="http://i.imgur.com/Qr71crq.jpg"
                     className="comment-author-img"
                   />
-                  <button className="btn btn-sm btn-primary">
+                  <button
+                    className="btn btn-sm btn-primary"
+                    onClick={postComment}
+                  >
                     Post Comment
                   </button>
                 </div>
               </form>
 
-              <div className="card">
-                <div className="card-block">
-                  <p className="card-text">
-                    With supporting text below as a natural lead-in to
-                    additional content.
-                  </p>
+              {comments.map((comment, index) => (
+                <div key={index} className="card">
+                  <div className="card-block">
+                    <p className="card-text">{comment.body}</p>
+                  </div>
+                  <div className="card-footer">
+                    <a href="/profile/author" className="comment-author">
+                      <img
+                        src={
+                          comment.author.image
+                            ? comment.author.image
+                            : "http://i.imgur.com/Qr71crq.jpg"
+                        }
+                        className="comment-author-img"
+                      />
+                    </a>
+                    &nbsp;
+                    <a href="/profile/jacob-schmidt" className="comment-author">
+                      {comment.author.username}
+                    </a>
+                    <span className="date-posted">
+                      {getFormattedDate(comment.createdAt)}
+                    </span>
+                    {user.username === comment.author.username && (
+                      <span className="mod-options">
+                        <i className="ion-trash-a"></i>
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <div className="card-footer">
-                  <a href="/profile/author" className="comment-author">
-                    <img
-                      src="http://i.imgur.com/Qr71crq.jpg"
-                      className="comment-author-img"
-                    />
-                  </a>
-                  &nbsp;
-                  <a href="/profile/jacob-schmidt" className="comment-author">
-                    Jacob Schmidt
-                  </a>
-                  <span className="date-posted">Dec 29th</span>
-                </div>
-              </div>
-
-              <div className="card">
-                <div className="card-block">
-                  <p className="card-text">
-                    With supporting text below as a natural lead-in to
-                    additional content.
-                  </p>
-                </div>
-                <div className="card-footer">
-                  <a href="/profile/author" className="comment-author">
-                    <img
-                      src="http://i.imgur.com/Qr71crq.jpg"
-                      className="comment-author-img"
-                    />
-                  </a>
-                  &nbsp;
-                  <a href="/profile/jacob-schmidt" className="comment-author">
-                    Jacob Schmidt
-                  </a>
-                  <span className="date-posted">Dec 29th</span>
-                  <span className="mod-options">
-                    <i className="ion-trash-a"></i>
-                  </span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         )}
