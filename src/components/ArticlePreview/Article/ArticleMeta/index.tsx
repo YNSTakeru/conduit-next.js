@@ -14,12 +14,21 @@ export default function ArticleMeta({
   created_at,
   favoritesCount,
 }: ArticleMetaProps) {
-  const { username, image } = author;
+  const { username } = author;
 
   return (
     <div className="article-meta">
       <a href={`profile/${username}`}>
-        <Image src={image} alt="" width={32} height={32} />
+        <Image
+          src={
+            author.image
+              ? author.image
+              : "https://via.placeholder.com/640x480.png/0066cc?text=qui"
+          }
+          alt=""
+          width={32}
+          height={32}
+        />
       </a>
       <div className="info">
         <a href={`profile/${username}`} className="author">

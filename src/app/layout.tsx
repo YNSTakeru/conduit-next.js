@@ -9,8 +9,7 @@ export const metadata: Metadata = {
   title: "Conduit",
 };
 
-export async function getUser() {
-  const url = "http://localhost:3000/api/loggedIn";
+export function getToken() {
   const cookieStore = cookies();
   let token;
 
@@ -28,6 +27,14 @@ export async function getUser() {
       token = tokenObject.value;
     }
   }
+
+  return token;
+}
+
+export async function getUser() {
+  const url = "http://localhost:3000/api/loggedIn";
+  const cookieStore = cookies();
+  let token = getToken();
 
   const res = await fetch(url, {
     credentials: "include",
