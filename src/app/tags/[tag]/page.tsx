@@ -1,3 +1,4 @@
+import { getUser } from "@/app/layout";
 import { getArticles, getPage, getTags } from "@/app/page";
 import ArticlePreviews from "@/components/ArticlePreview";
 import { Banner } from "@/components/Banner";
@@ -12,6 +13,7 @@ export default async function TagPage({ params }: { params: { tag: string } }) {
   const { articles } = await getArticles({ tag });
   const { tags } = await getTags();
   const page = await getPage({ tag });
+  const data = await getUser();
 
   return (
     <div className="home-page">
@@ -20,7 +22,7 @@ export default async function TagPage({ params }: { params: { tag: string } }) {
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            <FeedToggle />
+            <FeedToggle user={data.user} tag={tag} />
             <Suspense fallback={<div>Loading Blogs...</div>}>
               <ArticlePreviews articles={articles} />
             </Suspense>

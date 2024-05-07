@@ -41,20 +41,22 @@ interface CommentProps {
   };
 }
 
+export interface UserProps {
+  username: string;
+  imag?: string;
+  bio?: string;
+  following: boolean;
+  email: string;
+  password: string;
+}
+
 export default function ArticleDetail({
   user,
   token,
   article,
   fromComments,
 }: {
-  user?: {
-    username: string;
-    image: string;
-    bio: string;
-    following: boolean;
-    email: string;
-    password: string;
-  };
+  user?: UserProps;
   token?: string;
   article: ArticleDetailProps;
   fromComments?: CommentProps[];

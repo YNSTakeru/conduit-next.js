@@ -4,6 +4,7 @@ import FeedToggle from "@/components/FeedToggle";
 import Pagination from "@/components/Pagination";
 import Sidebar from "@/components/Sidebar";
 import { Suspense } from "react";
+import { getUser } from "./layout";
 
 export async function getArticles(
   {
@@ -74,8 +75,9 @@ export default async function Home({
 
   const { articles } = await getArticles({ currentPage });
   const { tags } = await getTags();
-
   const page = await getPage();
+
+  const data = await getUser();
 
   return (
     <div className="home-page">
@@ -84,7 +86,7 @@ export default async function Home({
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            <FeedToggle />
+            <FeedToggle user={data.user} />
             <Suspense fallback={<div>Loading Articles...</div>}>
               <ArticlePreviews articles={articles} />
             </Suspense>
