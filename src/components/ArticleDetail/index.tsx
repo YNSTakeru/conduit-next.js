@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 export function getFormattedDate(dateString: string) {
   const date = new Date(dateString);
@@ -115,6 +115,28 @@ export default function ArticleDetail({
       const newComment: CommentProps = data.comment;
 
       setComments([newComment, ...comments]);
+    }
+  };
+
+  const deleteComment = async (
+    e: React.MouseEvent<HTMLElement>,
+    id: number
+  ) => {
+    e.preventDefault();
+
+    const url = `http://localhost:3000/api/delete-comment?slug=${article.slug}&id=${id}`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const newComments = comments.filter((comment) => comment.id !== id);
+      setComments(newComments);
     }
   };
 
@@ -280,7 +302,10 @@ export default function ArticleDetail({
                     </span>
                     {user.username === comment.author.username && (
                       <span className="mod-options">
-                        <i className="ion-trash-a"></i>
+                        <i
+                          className="ion-trash-a"
+                          onClick={(e) => deleteComment(e, comment.id)}
+                        ></i>
                       </span>
                     )}
                   </div>
