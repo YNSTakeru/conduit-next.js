@@ -23,13 +23,15 @@ export interface ArticleProps {
 
 export default function ArticlePreviews({
   articles,
+  token,
 }: {
   articles: ArticleProps[];
+  token?: string;
 }) {
   return (
     <>
       {articles.map((article, index) => (
-        <Article key={index} article={article} />
+        <Article key={index} article={article} token={token} />
       ))}
     </>
   );

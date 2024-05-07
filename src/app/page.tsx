@@ -4,7 +4,7 @@ import FeedToggle from "@/components/FeedToggle";
 import Pagination from "@/components/Pagination";
 import Sidebar from "@/components/Sidebar";
 import { Suspense } from "react";
-import { getUser } from "./layout";
+import { getToken, getUser } from "./layout";
 
 export async function getArticles(
   {
@@ -21,7 +21,14 @@ export async function getArticles(
     url += `&tag=${tag}`;
   }
 
-  const res = await fetch(url);
+  const token = getToken();
+
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch articles");
@@ -76,8 +83,10 @@ export default async function Home({
   const { articles } = await getArticles({ currentPage });
   const { tags } = await getTags();
   const page = await getPage();
-
   const data = await getUser();
+  const token = getToken();
+
+  console.log(articles[0]);
 
   return (
     <div className="home-page">
@@ -88,7 +97,7 @@ export default async function Home({
           <div className="col-md-9">
             <FeedToggle user={data.user} />
             <Suspense fallback={<div>Loading Articles...</div>}>
-              <ArticlePreviews articles={articles} />
+              <ArticlePreviews articles={articles} token={token} />
             </Suspense>
             <Pagination {...page} />
           </div>

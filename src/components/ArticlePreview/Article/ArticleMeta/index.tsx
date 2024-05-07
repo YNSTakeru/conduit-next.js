@@ -3,21 +3,65 @@
 import { getFormattedDate } from "@/components/ArticleDetail";
 import { Author } from "@/components/ArticlePreview";
 import Image from "next/image";
+import { useState } from "react";
 
 interface ArticleMetaProps {
+  slug: string;
   author: Author;
   created_at: string;
+  favorited: boolean;
   favoritesCount: number;
+  token?: string;
 }
 
 export default function ArticleMeta({
+  slug,
   author,
   created_at,
+  favorited,
   favoritesCount,
+  token,
 }: ArticleMetaProps) {
   const { username } = author;
 
   const formattedDate = getFormattedDate(created_at);
+  const [isFavorited, setIsFavorited] = useState(favorited);
+  const [count, setCount] = useState(favoritesCount);
+
+  const favoriteHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!isFavorited) {
+      const url = `http://localhost:3000/api/favorite?slug=${slug}`;
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.ok) {
+        setIsFavorited(true);
+        setCount((prev) => prev + 1);
+      }
+    } else {
+      const url = `http://localhost:3000/api/unfavorite?slug=${slug}`;
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.ok) {
+        setIsFavorited(false);
+        setCount((prev) => prev - 1);
+      }
+    }
+  };
 
   return (
     <div className="article-meta">
@@ -39,8 +83,11 @@ export default function ArticleMeta({
         </a>
         <span className="date">{formattedDate}</span>
       </div>
-      <button className="btn btn-outline-primary btn-sm pull-xs-right">
-        <i className="ion-heart"></i> {favoritesCount}
+      <button
+        className="btn btn-outline-primary btn-sm pull-xs-right"
+        onClick={favoriteHandler}
+      >
+        <i className="ion-heart"></i> {count}
       </button>
     </div>
   );

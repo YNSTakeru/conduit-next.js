@@ -1,5 +1,5 @@
 import axios from "axios";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export function getParams(url: string) {
   const queryString = url.split("?")[1];
@@ -21,9 +21,9 @@ export function getTag(params: Map<string, string>) {
   return params.get("tag");
 }
 
-export async function GET({ url }: { url: string }) {
+export async function GET(req: NextRequest) {
   try {
-    const params = getParams(url);
+    const params = getParams(req.url);
     const offset = getOffset(params);
 
     let apiURL = `http://localhost/api/articles?offset=${offset}`;
@@ -32,7 +32,20 @@ export async function GET({ url }: { url: string }) {
       apiURL += `&tag=${getTag(params)}`;
     }
 
-    const response = await axios.get(apiURL);
+    const authorizationHeader = req.headers.get("authorization");
+
+    if (!authorizationHeader) {
+      const response = await axios.get(apiURL);
+      return NextResponse.json(response.data);
+    }
+
+    const instance = axios.create({
+      headers: {
+        Authorization: `${authorizationHeader}`,
+      },
+    });
+
+    const response = await instance.get(apiURL);
     return NextResponse.json(response.data);
   } catch (error) {
     console.error(error);
