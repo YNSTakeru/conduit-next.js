@@ -86,8 +86,6 @@ export default async function Home({
   const data = await getUser();
   const token = getToken();
 
-  console.log(articles[0]);
-
   return (
     <div className="home-page">
       <Banner />
