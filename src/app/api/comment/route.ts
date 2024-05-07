@@ -40,3 +40,33 @@ export async function POST(req: NextRequest) {
     return new Response("Failed to add comment", { status: 500 });
   }
 }
+
+export async function GET(req: NextRequest) {
+  const url = req.url;
+  const params = getParams(url);
+  const slug = params.get("slug");
+
+  const authorizationHeader = req.headers.get("authorization");
+
+  if (!authorizationHeader) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const instance = axios.create({
+      headers: {
+        Accept: "application/json",
+        Authorization: `${authorizationHeader}`,
+      },
+    });
+
+    const response = await instance.get(
+      `http://localhost/api/articles/${slug}/comments`
+    );
+
+    return NextResponse.json(response.data);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.error();
+  }
+}

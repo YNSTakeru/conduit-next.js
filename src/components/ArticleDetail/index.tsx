@@ -45,6 +45,7 @@ export default function ArticleDetail({
   user,
   token,
   article,
+  fromComments,
 }: {
   user?: {
     username: string;
@@ -56,6 +57,7 @@ export default function ArticleDetail({
   };
   token?: string;
   article: ArticleDetailProps;
+  fromComments?: CommentProps[];
 }) {
   const {
     title,
@@ -90,7 +92,9 @@ export default function ArticleDetail({
   };
 
   const [comment, setComment] = useState("");
-  const [comments, setComments] = useState<CommentProps[]>([]);
+  const [comments, setComments] = useState<CommentProps[]>(
+    fromComments ? fromComments : []
+  );
 
   const postComment = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

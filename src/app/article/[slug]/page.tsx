@@ -13,11 +13,37 @@ export async function getArticle(slug: string) {
   return res.json();
 }
 
+async function getComments({ slug, token }: { slug: string; token?: string }) {
+  const url = `http://localhost:3000/api/comment?slug=${slug}`;
+
+  const res = await fetch(url, {
+    credentials: "include",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    return { message: "コメントが見つかりませんでした" };
+  }
+
+  return res.json();
+}
+
 export default async function Detail({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const data = await getUser();
   const token = getToken();
   const { article } = await getArticle(slug);
 
-  return <ArticleDetail user={data.user} token={token} article={article} />;
+  const { comments } = await getComments({ slug, token });
+
+  return (
+    <ArticleDetail
+      user={data.user}
+      token={token}
+      article={article}
+      fromComments={comments}
+    />
+  );
 }
