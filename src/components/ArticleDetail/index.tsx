@@ -62,11 +62,13 @@ export default function ArticleDetail({
   fromComments?: CommentProps[];
 }) {
   const {
+    slug,
     title,
     description,
     body,
     tagList,
     createdAt,
+    favorited,
     favoritesCount,
     author,
   } = article;
@@ -142,6 +144,44 @@ export default function ArticleDetail({
     }
   };
 
+  const [isFavorited, setIsFavorited] = useState(favorited);
+  const [count, setCount] = useState(favoritesCount);
+
+  const favoriteHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!isFavorited) {
+      const url = `http://localhost:3000/api/favorite?slug=${slug}`;
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.ok) {
+        setIsFavorited(true);
+        setCount((prev) => prev + 1);
+      }
+    } else {
+      const url = `http://localhost:3000/api/unfavorite?slug=${slug}`;
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.ok) {
+        setIsFavorited(false);
+        setCount((prev) => prev - 1);
+      }
+    }
+  };
+
   return (
     <div className="article-page">
       <div className="banner">
@@ -164,10 +204,12 @@ export default function ArticleDetail({
               <span className="counter">(10)</span>
             </button>
             &nbsp;&nbsp;
-            <button className="btn btn-sm btn-outline-primary">
+            <button
+              className="btn btn-sm btn-outline-primary"
+              onClick={favoriteHandler}
+            >
               <i className="ion-heart"></i>
-              &nbsp; Favorite Post{" "}
-              <span className="counter">({favoritesCount})</span>
+              &nbsp; Favorite Post <span className="counter">({count})</span>
             </button>
             {user?.username === author.username && (
               <>
@@ -229,10 +271,12 @@ export default function ArticleDetail({
               &nbsp; Follow {author.username}
             </button>
             &nbsp;
-            <button className="btn btn-sm btn-outline-primary">
+            <button
+              className="btn btn-sm btn-outline-primary"
+              onClick={favoriteHandler}
+            >
               <i className="ion-heart"></i>
-              &nbsp; Favorite Article{" "}
-              <span className="counter">({favoritesCount})</span>
+              &nbsp; Favorite Article <span className="counter">({count})</span>
             </button>
             {user?.username === author.username && (
               <>

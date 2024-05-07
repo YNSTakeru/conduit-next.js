@@ -22,7 +22,6 @@ export async function POST(req: NextRequest) {
     await instance.post(`http://localhost/api/articles/${slug}/favorite`);
     return NextResponse.json({});
   } catch (error) {
-    console.error(error);
-    return NextResponse.error();
+    return NextResponse.json({});
   }
 }

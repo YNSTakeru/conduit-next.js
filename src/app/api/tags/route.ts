@@ -6,7 +6,6 @@ export async function GET() {
     const response = await axios.get("http://localhost/api/tags/popular");
     return NextResponse.json(response.data);
   } catch (error) {
-    console.error(error);
-    return NextResponse.error();
+    return NextResponse.json({});
   }
 }
