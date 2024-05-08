@@ -41,10 +41,15 @@ async function getUser() {
   return res.json();
 }
 
-async function getArticle(slug: string) {
+async function getArticle({ slug, token }: { slug: string; token?: string }) {
   const url = `http://localhost:3000/api/article?slug=${slug}`;
 
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    credentials: "include",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!res.ok) {
     return { message: "Articleが見つかりませんでした" };
@@ -74,7 +79,7 @@ export default async function Detail({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const data = await getUser();
   const token = getToken();
-  const { article } = await getArticle(slug);
+  const { article } = await getArticle({ slug, token });
 
   const { comments } = await getComments({ slug, token });
 

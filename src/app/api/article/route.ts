@@ -21,7 +21,22 @@ export async function GET(req: NextRequest) {
     const params = getParams(url);
     const slug = params.get("slug");
 
-    const response = await axios.get(`http://localhost/api/articles/${slug}`);
+    const authorizationHeader = req.headers.get("authorization");
+
+    const apiURL = `http://localhost/api/articles/${slug}`;
+
+    if (!authorizationHeader) {
+      const response = await axios.get(apiURL);
+      return NextResponse.json(response.data);
+    }
+
+    const instance = axios.create({
+      headers: {
+        Authorization: `${authorizationHeader}`,
+      },
+    });
+
+    const response = await instance.get(apiURL);
 
     return NextResponse.json(response.data);
   } catch (error) {

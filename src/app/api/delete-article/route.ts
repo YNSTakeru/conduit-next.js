@@ -36,6 +36,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({});
   } catch (error) {
+    console.log(error);
     return new Response("Articleを削除できませんでした", { status: 500 });
   }
 }
