@@ -1,4 +1,4 @@
-import { getArticles, getPage, getTags } from "@/app/page";
+import { getPage, getTags } from "@/app/page";
 import ArticlePreviews from "@/components/ArticlePreview";
 import { Banner } from "@/components/Banner";
 import FeedToggle from "@/components/FeedToggle";
@@ -6,6 +6,37 @@ import Pagination from "@/components/Pagination";
 import Sidebar from "@/components/Sidebar";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
+
+async function getArticles(
+  {
+    currentPage = 1,
+    tag = "",
+  }: {
+    currentPage?: Number;
+    tag?: string;
+  } = { currentPage: 1, tag: "" }
+) {
+  let url = `http://localhost:3000/api/articles?current_page=${currentPage}`;
+
+  if (tag) {
+    url += `&tag=${tag}`;
+  }
+
+  const token = getToken();
+
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch articles");
+  }
+
+  return res.json();
+}
 
 function getToken() {
   const cookieStore = cookies();

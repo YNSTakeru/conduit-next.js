@@ -2,8 +2,62 @@ import ArticlePreviews from "@/components/ArticlePreview";
 import Pagination from "@/components/Pagination";
 import ArticleToggle from "@/components/Profile/ArticleToggle";
 import UserInfo from "@/components/Profile/UserInfo";
+import { cookies } from "next/headers";
 import { Suspense } from "react";
-import { getArticles, getPage } from "../../page";
+import { getPage } from "../../page";
+
+function getToken() {
+  const cookieStore = cookies();
+  let token;
+
+  if (
+    typeof cookieStore === "object" &&
+    cookieStore !== null &&
+    "_parsed" in cookieStore
+  ) {
+    const parsedCookies = cookieStore._parsed as Map<
+      string,
+      { name: string; value: string }
+    >;
+    const tokenObject = parsedCookies.get("token");
+    if (tokenObject) {
+      token = tokenObject.value;
+    }
+  }
+
+  return token;
+}
+
+async function getArticles(
+  {
+    currentPage = 1,
+    tag = "",
+  }: {
+    currentPage?: Number;
+    tag?: string;
+  } = { currentPage: 1, tag: "" }
+) {
+  let url = `http://localhost:3000/api/articles?current_page=${currentPage}`;
+
+  if (tag) {
+    url += `&tag=${tag}`;
+  }
+
+  const token = getToken();
+
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch articles");
+  }
+
+  return res.json();
+}
 
 export default async function Profile({
   searchParams,

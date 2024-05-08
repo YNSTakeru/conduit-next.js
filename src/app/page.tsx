@@ -46,7 +46,7 @@ async function getUser() {
   return res.json();
 }
 
-export async function getArticles(
+async function getArticles(
   {
     currentPage = 1,
     tag = "",
