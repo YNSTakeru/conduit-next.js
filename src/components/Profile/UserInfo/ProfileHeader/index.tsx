@@ -12,8 +12,8 @@ export default function ProfileHeader({ username }: { username: string }) {
       />
       <h4>{username}</h4>
       <p>
-        Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks
-        like Peeta from the Hunger Games
+        {`Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks
+        like Peeta from the Hunger Games`}
       </p>
     </>
   );

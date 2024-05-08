@@ -1,9 +1,21 @@
 import axios from "axios";
-import { NextResponse } from "next/server";
-import { getParams } from "../articles/route";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET({ url }: { url: string }) {
+function getParams(url: string) {
+  const queryString = url.split("?")[1];
+  const params = new Map(
+    queryString.split("&").map((param) => {
+      const [key, value] = param.split("=");
+      return [key, value || ""];
+    })
+  );
+
+  return params;
+}
+
+export async function GET(req: NextRequest) {
   try {
+    const url = req.url;
     const params = getParams(url);
     const slug = params.get("slug");
 

@@ -1,9 +1,29 @@
 import axios from "axios";
-import { NextResponse } from "next/server";
-import { getOffset, getParams, getTag } from "../articles/route";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET({ url }: { url: string }) {
+function getParams(url: string) {
+  const queryString = url.split("?")[1];
+  const params = new Map(
+    queryString.split("&").map((param) => {
+      const [key, value] = param.split("=");
+      return [key, value || ""];
+    })
+  );
+
+  return params;
+}
+
+function getOffset(params: Map<string, string>) {
+  return (Number(params.get("current_page")) - 1) * 20;
+}
+
+function getTag(params: Map<string, string>) {
+  return params.get("tag");
+}
+
+export async function GET(req: NextRequest) {
   try {
+    const url = req.url;
     const params = getParams(url);
     const offset = getOffset(params);
 

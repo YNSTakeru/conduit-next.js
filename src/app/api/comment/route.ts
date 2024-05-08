@@ -1,6 +1,17 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
-import { getParams } from "../articles/route";
+
+function getParams(url: string) {
+  const queryString = url.split("?")[1];
+  const params = new Map(
+    queryString.split("&").map((param) => {
+      const [key, value] = param.split("=");
+      return [key, value || ""];
+    })
+  );
+
+  return params;
+}
 
 export async function POST(req: NextRequest) {
   const { comment } = await req.json();

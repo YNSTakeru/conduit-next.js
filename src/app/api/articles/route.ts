@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
-export function getParams(url: string) {
+function getParams(url: string) {
   const queryString = url.split("?")[1];
   const params = new Map(
     queryString.split("&").map((param) => {
@@ -13,11 +13,11 @@ export function getParams(url: string) {
   return params;
 }
 
-export function getOffset(params: Map<string, string>) {
+function getOffset(params: Map<string, string>) {
   return (Number(params.get("current_page")) - 1) * 20;
 }
 
-export function getTag(params: Map<string, string>) {
+function getTag(params: Map<string, string>) {
   return params.get("tag");
 }
 
