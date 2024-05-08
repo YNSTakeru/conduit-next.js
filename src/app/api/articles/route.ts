@@ -1,6 +1,8 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 function getParams(url: string) {
   const queryString = url.split("?")[1];
   const params = new Map(
@@ -20,9 +22,6 @@ function getOffset(params: Map<string, string>) {
 function getTag(params: Map<string, string>) {
   return params.get("tag");
 }
-
-//  @ts-ignore
-export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
