@@ -8,6 +8,7 @@ import { getPage } from "../../page";
 
 function getToken() {
   const cookieStore = cookies();
+
   let token;
 
   if (

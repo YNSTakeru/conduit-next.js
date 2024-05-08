@@ -77,7 +77,7 @@ async function getArticles(
   return res.json();
 }
 
-export async function getTags() {
+async function getTags() {
   const res = await fetch("http://localhost:3000/api/tags");
 
   if (!res.ok) {

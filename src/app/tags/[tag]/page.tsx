@@ -1,4 +1,4 @@
-import { getPage, getTags } from "@/app/page";
+import { getPage } from "@/app/page";
 import ArticlePreviews from "@/components/ArticlePreview";
 import { Banner } from "@/components/Banner";
 import FeedToggle from "@/components/FeedToggle";
@@ -73,6 +73,16 @@ async function getArticles(
 
   if (!res.ok) {
     throw new Error("Failed to fetch articles");
+  }
+
+  return res.json();
+}
+
+async function getTags() {
+  const res = await fetch("http://localhost:3000/api/tags");
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch tags");
   }
 
   return res.json();
