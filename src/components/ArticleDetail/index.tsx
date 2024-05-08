@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState } from "react";
 
 export function getFormattedDate(dateString: string) {
@@ -43,7 +44,7 @@ interface CommentProps {
 
 export interface UserProps {
   username: string;
-  imag?: string;
+  image?: string;
   bio?: string;
   following: boolean;
   email: string;
@@ -190,7 +191,12 @@ export default function ArticleDetail({
 
           <div className="article-meta">
             <a href="/profile/eric-simons">
-              <img src="http://i.imgur.com/Qr71crq.jpg" />
+              <Image
+                src={author.image ? author.image : ""}
+                alt=""
+                width={32}
+                height={32}
+              />
             </a>
             <div className="info">
               <a href="/profile/eric-simons" className="author">
@@ -254,10 +260,11 @@ export default function ArticleDetail({
         <div className="article-actions">
           <div className="article-meta">
             <a href={`profile/${author.username}`}>
-              <img
-                src={
-                  author.image ? author.image : "http://i.imgur.com/Qr71crq.jpg"
-                }
+              <Image
+                src={author.image ? author.image : ""}
+                alt=""
+                width={32}
+                height={32}
               />
             </a>
             <div className="info">
@@ -310,8 +317,11 @@ export default function ArticleDetail({
                   ></textarea>
                 </div>
                 <div className="card-footer">
-                  <img
-                    src="http://i.imgur.com/Qr71crq.jpg"
+                  <Image
+                    src={user.image ? user.image : ""}
+                    alt="user画像"
+                    width={32}
+                    height={32}
                     className="comment-author-img"
                   />
                   <button
@@ -330,12 +340,11 @@ export default function ArticleDetail({
                   </div>
                   <div className="card-footer">
                     <a href="/profile/author" className="comment-author">
-                      <img
-                        src={
-                          comment.author.image
-                            ? comment.author.image
-                            : "http://i.imgur.com/Qr71crq.jpg"
-                        }
+                      <Image
+                        src={comment.author.image ? comment.author.image : ""}
+                        alt=""
+                        width={20}
+                        height={20}
                         className="comment-author-img"
                       />
                     </a>
