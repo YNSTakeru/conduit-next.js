@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export default function Header({
@@ -86,7 +87,13 @@ export default function Header({
               }`}
               href={`/profile/${username}`}
             >
-              <img src={image} className="user-pic" />
+              <Image
+                src={image ? image : ""}
+                width={26}
+                height={26}
+                alt=""
+                className="user-pic"
+              />
               {username}
             </a>
           </li>
