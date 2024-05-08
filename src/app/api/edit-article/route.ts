@@ -22,8 +22,6 @@ export async function POST(req: NextRequest) {
     return new Response("値が変更されていません", { status: 400 });
   }
 
-  console.log(baseData);
-
   const data = { article: baseData };
 
   const url = req.url;
@@ -31,8 +29,6 @@ export async function POST(req: NextRequest) {
   const slug = params.get("slug");
 
   const authorizationHeader = req.headers.get("authorization");
-
-  console.log(authorizationHeader);
 
   if (!authorizationHeader) {
     return new Response("認証エラー", { status: 401 });

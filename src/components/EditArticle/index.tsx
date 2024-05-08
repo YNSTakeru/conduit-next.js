@@ -63,7 +63,6 @@ export default function EditArticle({
     );
 
     if (response.status === 400) {
-      console.log(response);
       const data = await response.text();
       const dataList = data.split(", ");
       setErrors(() => dataList);
