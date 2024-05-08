@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Conduit",
 };
 
-export function getToken() {
+function getToken() {
   const cookieStore = cookies();
   let token;
 
@@ -31,7 +31,7 @@ export function getToken() {
   return token;
 }
 
-export async function getUser() {
+async function getUser() {
   const url = "http://localhost:3000/api/loggedIn";
   const cookieStore = cookies();
   let token = getToken();

@@ -1,5 +1,45 @@
-import { getToken, getUser } from "@/app/layout";
 import ArticleDetail from "@/components/ArticleDetail";
+import { cookies } from "next/headers";
+
+function getToken() {
+  const cookieStore = cookies();
+  let token;
+
+  if (
+    typeof cookieStore === "object" &&
+    cookieStore !== null &&
+    "_parsed" in cookieStore
+  ) {
+    const parsedCookies = cookieStore._parsed as Map<
+      string,
+      { name: string; value: string }
+    >;
+    const tokenObject = parsedCookies.get("token");
+    if (tokenObject) {
+      token = tokenObject.value;
+    }
+  }
+
+  return token;
+}
+
+async function getUser() {
+  const url = "http://localhost:3000/api/loggedIn";
+  const cookieStore = cookies();
+  let token = getToken();
+
+  const res = await fetch(url, {
+    credentials: "include",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    return res.json();
+  }
+  return res.json();
+}
 
 async function getArticle(slug: string) {
   const url = `http://localhost:3000/api/article?slug=${slug}`;
