@@ -28,6 +28,28 @@ export default function EditArticle({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const data: {
+      title?: string;
+      description?: string;
+      body?: string;
+      tagList?: string[];
+    } = {};
+    if (article.title !== title) {
+      data["title"] = title;
+    }
+
+    if (article.description !== description) {
+      data["description"] = description;
+    }
+
+    if (article.body !== body) {
+      data["body"] = body;
+    }
+
+    if (article.tagList !== tagList) {
+      data["tagList"] = tagList;
+    }
+
     const response = await fetch(
       `http://localhost:3000/api/edit-article?slug=${slug}`,
       {
@@ -36,13 +58,13 @@ export default function EditArticle({
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title, description, body, tagList }),
+        body: JSON.stringify(data),
       }
     );
 
     if (response.status === 400) {
+      console.log(response);
       const data = await response.text();
-
       const dataList = data.split(", ");
       setErrors(() => dataList);
     }

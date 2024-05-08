@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
 function getParams(url: string) {
@@ -16,40 +16,27 @@ function getParams(url: string) {
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
-  const { title, description, body, tagList } = await req.json();
+  const baseData = await req.json();
+
+  if (Object.keys(baseData).length === 0) {
+    return new Response("値が変更されていません", { status: 400 });
+  }
+
+  console.log(baseData);
+
+  const data = { article: baseData };
+
   const url = req.url;
   const params = getParams(url);
   const slug = params.get("slug");
 
-  if (!title || !description || !body || !(tagList.length > 0)) {
-    let response;
-    const errorMessages = [];
-    if (!title) {
-      errorMessages.push("please type title");
-    }
-    if (!description) {
-      errorMessages.push("please type description");
-    }
-    if (!body) {
-      errorMessages.push("please type body");
-    }
-    if (!(tagList.length > 0)) {
-      errorMessages.push("please type tagList");
-    }
-
-    response = new Response(errorMessages.join(", "), { status: 400 });
-    return response;
-  }
-
   const authorizationHeader = req.headers.get("authorization");
+
+  console.log(authorizationHeader);
 
   if (!authorizationHeader) {
     return new Response("認証エラー", { status: 401 });
   }
-
-  const data = {
-    article: { title, description, body, tagList },
-  };
 
   try {
     const instance = axios.create({
@@ -66,6 +53,14 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(response.data, { status: response.status });
   } catch (error) {
-    return new Response("Articleを追加できませんでした", { status: 500 });
+    if (error && (error as AxiosError).response) {
+      const errorResponse = (error as AxiosError).response!.data as {
+        errors: Record<string, string[]>;
+      };
+      const errors = errorResponse.errors;
+      const errorMessages = Object.keys(errors).map((key) => errors[key]);
+
+      return new Response(errorMessages.join(", "), { status: 400 });
+    }
   }
 }
