@@ -24,7 +24,7 @@ export default function FeedToggle({
         <li className="nav-item">
           <a
             className={`nav-link ${tag ? "" : "active"}`}
-            href="http://localhost:3000"
+            href={process.env.NEXT_PUBLIC_API_URL}
           >
             Global Feed
           </a>
@@ -33,7 +33,7 @@ export default function FeedToggle({
           <li className="nav-item">
             <a
               className={`nav-link active`}
-              href={`http://localhost:3000/tags/${tag}`}
+              href={`${process.env.NEXT_PUBLIC_API_URL}/tags/${tag}`}
             >
               {tag}
             </a>

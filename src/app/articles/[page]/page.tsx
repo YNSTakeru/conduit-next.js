@@ -7,7 +7,8 @@ import { cookies } from "next/headers";
 import { Suspense } from "react";
 
 async function getTags() {
-  const res = await fetch("http://localhost:3000/api/tags");
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/tags`;
+  const res = await fetch(url);
 
   if (!res.ok) {
     throw new Error("Failed to fetch tags");
@@ -25,7 +26,7 @@ async function getArticles(
     tag?: string;
   } = { currentPage: 1, tag: "" }
 ) {
-  let url = `http://localhost:3000/api/articles?current_page=${currentPage}`;
+  let url = `${process.env.NEXT_PUBLIC_API_URL}/api/articles?current_page=${currentPage}`;
 
   if (tag) {
     url += `&tag=${tag}`;
@@ -70,7 +71,7 @@ function getToken() {
 }
 
 async function getUser() {
-  const url = "http://localhost:3000/api/loggedIn";
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/loggedIn`;
   const cookieStore = cookies();
   let token = getToken();
 
@@ -96,7 +97,7 @@ async function getPage(
     tag?: string;
   } = { currentPage: 1, tag: "" }
 ) {
-  let url = `http://localhost:3000/api/pages?current_page=${currentPage}`;
+  let url = `${process.env.NEXT_PUBLIC_API_URL}/api/pages?current_page=${currentPage}`;
 
   if (tag) {
     url += `&tag=${tag}`;

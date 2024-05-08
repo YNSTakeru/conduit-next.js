@@ -77,22 +77,27 @@ export default function ArticleDetail({
   const formattedDate = getFormattedDate(createdAt);
 
   const handleTagClick = (tag: string) => {
-    window.location.href = `http://localhost:3000/tags/${tag}`;
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/tags/${tag}`;
+    window.location.href = url;
   };
 
   const handleEditClick = () => {
-    window.location.href = `http://localhost:3000/editor/${article.slug}`;
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/editor/${article.slug}`;
+
+    window.location.href = url;
   };
 
   const handleDelete = () => {
-    fetch(`http://localhost:3000/api/delete-article?slug=${article.slug}`, {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/delete-article?slug=${article.slug}`;
+
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     }).then((response) => {
-      window.location.href = "http://localhost:3000";
+      window.location.href = `${process.env.NEXT_PUBLIC_API_URL}`;
     });
   };
 
@@ -103,7 +108,7 @@ export default function ArticleDetail({
 
   const postComment = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const url = `http://localhost:3000/api/comment?slug=${article.slug}`;
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/comment?slug=${article.slug}`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -129,7 +134,7 @@ export default function ArticleDetail({
   ) => {
     e.preventDefault();
 
-    const url = `http://localhost:3000/api/delete-comment?slug=${article.slug}&id=${id}`;
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/delete-comment?slug=${article.slug}&id=${id}`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -151,7 +156,7 @@ export default function ArticleDetail({
   const favoriteHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!isFavorited) {
-      const url = `http://localhost:3000/api/favorite?slug=${slug}`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/favorite?slug=${slug}`;
 
       const res = await fetch(url, {
         method: "POST",
@@ -166,7 +171,7 @@ export default function ArticleDetail({
         setCount((prev) => prev + 1);
       }
     } else {
-      const url = `http://localhost:3000/api/unfavorite?slug=${slug}`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/unfavorite?slug=${slug}`;
 
       const res = await fetch(url, {
         method: "POST",

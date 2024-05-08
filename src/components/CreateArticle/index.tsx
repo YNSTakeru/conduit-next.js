@@ -23,7 +23,8 @@ export default function CreateArticle({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const response = await fetch("http://localhost:3000/api/create-article", {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/create-article`;
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

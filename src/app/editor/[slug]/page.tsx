@@ -24,7 +24,7 @@ function getToken() {
 }
 
 async function getUser() {
-  const url = "http://localhost:3000/api/loggedIn";
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/loggedIn`;
   const cookieStore = cookies();
   let token = getToken();
 
@@ -42,7 +42,7 @@ async function getUser() {
 }
 
 async function getArticle(slug: string) {
-  const url = `http://localhost:3000/api/article?slug=${slug}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/article?slug=${slug}`;
 
   const res = await fetch(url);
 

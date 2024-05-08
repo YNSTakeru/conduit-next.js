@@ -51,7 +51,7 @@ export default function EditArticle({
     }
 
     const response = await fetch(
-      `http://localhost:3000/api/edit-article?slug=${slug}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/edit-article?slug=${slug}`,
       {
         method: "POST",
         headers: {
@@ -77,7 +77,7 @@ export default function EditArticle({
 
     if (response.ok) {
       const data = await response.json();
-      window.location.href = `http://localhost:3000/article/${data.article.slug}`;
+      window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/article/${data.article.slug}`;
     }
   };
 

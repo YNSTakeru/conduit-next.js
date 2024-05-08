@@ -16,7 +16,10 @@ export default function PreviewLink({
   slug,
 }: PreviewLinkProps) {
   return (
-    <a href={`http://localhost:3000/article/${slug}`} className="preview-link">
+    <a
+      href={`${process.env.NEXT_PUBLIC_API_URL}/article/${slug}`}
+      className="preview-link"
+    >
       <h1>{title}</h1>
       <p>{description}</p>
       <span>Read more...</span>

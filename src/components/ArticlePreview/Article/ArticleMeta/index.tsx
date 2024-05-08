@@ -31,7 +31,7 @@ export default function ArticleMeta({
   const favoriteHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!isFavorited) {
-      const url = `http://localhost:3000/api/favorite?slug=${slug}`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/favorite?slug=${slug}`;
 
       const res = await fetch(url, {
         method: "POST",
@@ -46,7 +46,7 @@ export default function ArticleMeta({
         setCount((prev) => prev + 1);
       }
     } else {
-      const url = `http://localhost:3000/api/unfavorite?slug=${slug}`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/unfavorite?slug=${slug}`;
 
       const res = await fetch(url, {
         method: "POST",

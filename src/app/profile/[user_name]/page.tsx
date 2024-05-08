@@ -14,7 +14,7 @@ async function getPage(
     tag?: string;
   } = { currentPage: 1, tag: "" }
 ) {
-  let url = `http://localhost:3000/api/pages?current_page=${currentPage}`;
+  let url = `${process.env.NEXT_PUBLIC_API_URL}/api/pages?current_page=${currentPage}`;
 
   if (tag) {
     url += `&tag=${tag}`;
@@ -61,7 +61,7 @@ async function getArticles(
     tag?: string;
   } = { currentPage: 1, tag: "" }
 ) {
-  let url = `http://localhost:3000/api/articles?current_page=${currentPage}`;
+  let url = `${process.env.NEXT_PUBLIC_API_URL}/api/articles?current_page=${currentPage}`;
 
   if (tag) {
     url += `&tag=${tag}`;
