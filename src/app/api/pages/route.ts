@@ -21,6 +21,8 @@ function getTag(params: Map<string, string>) {
   return params.get("tag");
 }
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const url = req.url;

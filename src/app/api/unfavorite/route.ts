@@ -12,6 +12,7 @@ function getParams(url: string) {
 
   return params;
 }
+export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   const url = req.url;

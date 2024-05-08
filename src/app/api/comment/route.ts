@@ -1,6 +1,8 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 function getParams(url: string) {
   const queryString = url.split("?")[1];
   const params = new Map(

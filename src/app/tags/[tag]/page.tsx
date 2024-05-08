@@ -1,4 +1,3 @@
-import { getPage } from "@/app/page";
 import ArticlePreviews from "@/components/ArticlePreview";
 import { Banner } from "@/components/Banner";
 import FeedToggle from "@/components/FeedToggle";
@@ -83,6 +82,30 @@ async function getTags() {
 
   if (!res.ok) {
     throw new Error("Failed to fetch tags");
+  }
+
+  return res.json();
+}
+
+async function getPage(
+  {
+    currentPage = 1,
+    tag = "",
+  }: {
+    currentPage?: Number;
+    tag?: string;
+  } = { currentPage: 1, tag: "" }
+) {
+  let url = `http://localhost:3000/api/pages?current_page=${currentPage}`;
+
+  if (tag) {
+    url += `&tag=${tag}`;
+  }
+
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch page");
   }
 
   return res.json();

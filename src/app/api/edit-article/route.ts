@@ -13,6 +13,8 @@ function getParams(url: string) {
   return params;
 }
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   const { title, description, body, tagList } = await req.json();
   const url = req.url;

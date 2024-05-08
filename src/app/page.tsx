@@ -87,7 +87,7 @@ async function getTags() {
   return res.json();
 }
 
-export async function getPage(
+async function getPage(
   {
     currentPage = 1,
     tag = "",
