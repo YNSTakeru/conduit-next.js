@@ -1,7 +1,7 @@
 import { getToken, getUser } from "@/app/layout";
 import ArticleDetail from "@/components/ArticleDetail";
 
-export async function getArticle(slug: string) {
+async function getArticle(slug: string) {
   const url = `http://localhost:3000/api/article?slug=${slug}`;
 
   const res = await fetch(url);
