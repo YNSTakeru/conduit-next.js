@@ -21,7 +21,10 @@ export async function POST(req: NextRequest) {
   };
 
   try {
-    const response = await axios.post("http://localhost/api/users/login", data);
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/api/users/login`,
+      data
+    );
 
     const token = response.data.user.token;
     const cookie = `token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=3600;`;

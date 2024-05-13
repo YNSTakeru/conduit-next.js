@@ -31,7 +31,9 @@ export async function POST(req: NextRequest) {
         Authorization: `${authorizationHeader}`,
       },
     });
-    await instance.delete(`http://localhost/api/articles/${slug}/favorite`);
+    await instance.delete(
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/api/articles/${slug}/favorite`
+    );
     return NextResponse.json({});
   } catch (error) {
     console.error(error);

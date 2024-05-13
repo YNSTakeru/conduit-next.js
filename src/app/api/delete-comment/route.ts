@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       },
     });
     await instance.delete(
-      `http://localhost/api/articles/${slug}/comments/${id}`
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/api/articles/${slug}/comments/${id}`
     );
 
     return NextResponse.json({});

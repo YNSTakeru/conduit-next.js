@@ -32,7 +32,9 @@ export async function POST(req: NextRequest) {
         Authorization: `${authorizationHeader}`,
       },
     });
-    await instance.post(`http://localhost/api/articles/${slug}/favorite`);
+    await instance.post(
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/api/articles/${slug}/favorite`
+    );
     return NextResponse.json({});
   } catch (error) {
     return NextResponse.json({});
