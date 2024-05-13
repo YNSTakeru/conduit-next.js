@@ -42,7 +42,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const response = await instance.post("http://localhost/api/articles", data);
+    const response = await instance.post(
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/api/articles`,
+      data
+    );
 
     return NextResponse.json(response.data, { status: response.status });
   } catch (error) {

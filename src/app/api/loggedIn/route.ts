@@ -12,7 +12,9 @@ export async function GET(request: NextRequest) {
         headers: { Authorization: `${authorizationHeader}` },
       });
 
-      const response = await instance.get("http://localhost/api/user");
+      const response = await instance.get(
+        `${process.env.NEXT_PUBLIC_DATABASE_URL}/api/user`
+      );
 
       token = response.data.user.token;
       const cookie = `token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=3600;`;

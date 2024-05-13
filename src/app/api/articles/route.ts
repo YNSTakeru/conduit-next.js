@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
     const params = getParams(req.url);
     const offset = getOffset(params);
 
-    let apiURL = `http://localhost/api/articles?offset=${offset}`;
+    let apiURL = `${process.env.NEXT_PUBLIC_DATABASE_URL}/api/articles?offset=${offset}`;
 
     if (params.has("tag")) {
       apiURL += `&tag=${getTag(params)}`;

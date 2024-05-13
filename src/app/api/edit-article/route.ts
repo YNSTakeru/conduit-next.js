@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     });
 
     const response = await instance.put(
-      `http://localhost/api/articles/${slug}`,
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/api/articles/${slug}`,
       data
     );
 

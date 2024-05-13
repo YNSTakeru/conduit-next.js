@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     });
 
     const response = await instance.post(
-      `http://localhost/api/articles/${slug}/comments`,
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/api/articles/${slug}/comments`,
       data
     );
 
@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
     });
 
     const response = await instance.get(
-      `http://localhost/api/articles/${slug}/comments`
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/api/articles/${slug}/comments`
     );
 
     return NextResponse.json(response.data);

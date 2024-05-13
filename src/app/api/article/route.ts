@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
 
     const authorizationHeader = req.headers.get("authorization");
 
-    const apiURL = `http://localhost/api/articles/${slug}`;
+    const apiURL = `${process.env.NEXT_PUBLIC_DATABASE_URL}/api/articles/${slug}`;
 
     if (!authorizationHeader) {
       const response = await axios.get(apiURL);
