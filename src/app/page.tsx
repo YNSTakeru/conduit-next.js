@@ -31,7 +31,6 @@ function getToken() {
 async function getUser() {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/loggedIn`;
 
-  console.log(url);
   const cookieStore = cookies();
   let token = getToken();
 
